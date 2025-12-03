@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人网页</title>
+
+    <style>
+        /* 基础样式重置 */
+        .avatar {
+            /* 设置头像的宽度和高度，保持一致 */
+            width: 120px;
+            height: 120px;
+
+            /* 关键属性：将方形图片变为圆形 */
+            border-radius: 50%;
+
+            /* 添加一个白色边框和阴影，使其更具层次感 */
+            border: 4px solid #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
+            /* 让头像在容器内水平居中 */
+            margin: 0 auto 20px auto;
+            /* 上下外边距为20px，左右自动（实现居中） */
+
+            /* 确保图片不变形，多余部分被裁剪 */
+            object-fit: cover;
+        }
+
+        .avatar:hover {
+            filter: brightness(1.2);
+            /* 灰度化+提亮，呈现白色 */
+        }
+
+        body {
+            background-image: url('https://static.miraheze.org/celestewiki/2/24/Summit-ch7-complete-100kb.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-blend-mode: overlay;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* 统一字体 */
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: rgb(61, 61, 196);
+            /* 链接颜色过渡 */
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: rgb(30, 30, 150);
+        }
+
+        .headcontainer {
+            background-color: rgba(174, 218, 218, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 1200px;
+            border-radius: 12px;
+        }
+
+        .headcontainer h1 {
+            color: #333;
+            letter-spacing: 0.5px;
+            font-size: 2rem;
+        }
+
+        .bodycontainer span {
+            display: flex;
+            font-size: 16px;
+        }
+
+        .bodycontainer {
+            display: flex;
+            margin: 20px auto;
+            max-width: 1200px;
+            gap: 20px;
+        }
+
+        .flexboxleft {
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(174, 218, 218, 0.9);
+            width: 23%;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .flexboxleft .nav-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4299e1;
+        }
+
+        .flexboxright {
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            width: 77%;
+            /* 减小内边距，使区域变“扁” */
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            /* 右侧内容区悬停上浮效果 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .flexboxright:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        /* --- 核心悬停特效 --- */
+        .flexboxson {
+            background: linear-gradient(180deg, rgba(207, 240, 236, 0.95), rgba(188, 228, 224, 0.92));
+            /* 可选：添加极淡的纹理增强质感（不影响可读性） */
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            /* 所有属性过渡，实现平滑动画 */
+            transition: all 0.3s ease;
+        }
+
+        .flexboxson:hover {
+            background-color: #4299e1;
+            /* 悬停时背景变色 */
+            transform: translateX(5px) scale(1.02);
+            /* 轻微右移和放大 */
+            box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+            /* 增强阴影 */
+        }
+
+        /* icon 类图片基础样式（若已有可忽略，重点加 hover 和 transition） */
+        .icon {
+            transition: all 0.2s ease;
+            /* 平滑过渡，避免生硬切换 */
+        }
+
+        /* icon 图片悬停变白效果 */
+        .icon:hover {
+            filter: brightness(1.2);
+            /*提亮，呈现白色 */
+        }
+
+
+        .img {
+            height: 35px;
+            width: 35px;
+            margin-right: 12px;
+            object-fit: contain;
+            border-radius: 4px;
+            /* 已移除 transform 的 transition */
+        }
+
+        /* 页面介绍区域样式 */
+        .flexboxright .intro-title {
+            flex-direction: row;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2d3748;
+            font-size: 1.8rem;
+        }
+
+        .flexboxright .intro {
+            font-size: 1.2rem;
+            line-height: 2.3;
+            color: #4a5568;
+            margin-bottom: 20px;
+
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="headcontainer">
+        <h1>个人网站 🫥</h1>
+    </div>
+
+    <div class="bodycontainer">
+        <div class="flexboxleft">
+            <div class="nav-title">收藏页面</div>
+            <div>
+                <img class="icon" src="https://static.wikitide.net/celestewiki/0/00/Theo_crystal.png" decoding="async"
+                    width="50px" height="50px">
+                <img class="icon" decoding="async" src="https://static.wikitide.net/celestewiki/6/63/Celeste_key.gif"
+                    style="width: 50px;height: 50px;">
+                <img class="icon" width="50px" height="50px" decoding="async"
+                    src="//static.wikitide.net/celestewiki/9/9a/Celeste_farewell_bird.gif">
+                <img class="icon" width="50px" height="50px" ;margin-top="10px" ;
+                    src="//static.wikitide.net/celestewiki/2/29/Crumble_blocks.gif" decoding="async">
+            </div>
+
+        </div>
+        <div class="flexboxright">
+            <div class="intro-title">
+                <div class="nav-title">网页介绍</div>
+            </div>
+            <span>这是一个个人收藏导航页，左侧包含各类常用网站链接，包括学习平台、工具网站等。
+                点击链接可直接跳转至对应网站，方便日常使用。</span>
+
+
+        </div>
+    </div>
+
+    <div class="bodycontainer">
+        <div class="flexboxleft">
+            <div class="flexboxson">
+                <a href="https://moodle.scnu.edu.cn/my/">
+                    <img class="img"
+                        src="https://moodle.scnu.edu.cn/pluginfile.php/1/core_admin/favicon/64x64/1762722002/favicon.ico">
+                </a>
+                <a href="https://moodle.scnu.edu.cn/my/">砺儒云课堂</a>
+            </div>
+
+            <div class="flexboxson">
+                <a href="https://sso.scnu.edu.cn/AccountService/user/index.html">
+                    <img class="img"
+                        src="https://moodle.scnu.edu.cn/pluginfile.php/1/core_admin/favicon/64x64/1762722002/favicon.ico">
+                </a>
+                <a href="https://sso.scnu.edu.cn/AccountService/user/index.html">综合服务平台</a>
+            </div>
+
+            <div class="flexboxson">
+                <a href="https://jwxt.scnu.edu.cn/xtgl/index_initMenu.html?jsdm=&_t=1762883383963">
+                    <img class="img"
+                        src="https://jwxt.scnu.edu.cn/zftal-ui-v5-1.0.2/assets/images/logo/logo_jw_d.png?t=1762883497769">
+                </a>
+                <a href="https://jwxt.scnu.edu.cn/xtgl/index_initMenu.html?jsdm=&_t=1762883383963">华师教务平台</a>
+            </div>
+
+
+
+            <div class="flexboxson">
+                <a href="https://www.bilibili.com">
+                    <img class="img" src="https://www.bilibili.com/favicon.ico">
+                </a>
+                <a href="https://www.bilibili.com">哔哩哔哩</a>
+            </div>
+
+
+
+            <div class="flexboxson">
+                <a href="https://music.163.com/">
+                    <img class="img" src="http://p3.music.126.net/tBTNafgjNnTL1KlZMt7lVA==/18885211718935735.jpg">
+                </a>
+                <a href="https://music.163.com/">网易云音乐</a>
+            </div>
+
+            <div class="flexboxson">
+                <a href="https://steamdb.info/">
+                    <img class="img" src="https://steamdb.info/static/logos/512px.png">
+                </a>
+                <a href="https://steamdb.info/">SteamDB</a>
+            </div>
+            <div class="flexboxson">
+                <a href="https://blog.csdn.net/2401_83582688/article/details/144380760">
+                    <img src="https://g.csdnimg.cn/static/logo/favicon32.ico" decoding="async" class="img"></a>
+                <a href="https://blog.csdn.net/2401_83582688/article/details/144380760">CDSN社区</a>
+            </div>
+
+            <div class="flexboxson">
+                <a href="https://github.com/">
+                    <svg height="32" aria-hidden="true" viewBox="0 0 24 24" version="1.1" width="32"
+                        data-view-component="true" class="octicon octicon-mark-github">
+                        <path
+                            d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z">
+                        </path>
+                    </svg>
+                </a>
+                <a href="https://github.com/">
+                    <pre style="font-size: 18px;">  Github </pre>
+                </a>
+            </div>
+            <div class="flexboxson">
+                <a href="https://www.doubao.com/chat">
+                    <img class="img" src="https://lf-flow-web-cdn.doubao.com/obj/flow-doubao/doubao/chat/favicon.png">
+                </a>
+                <a href="https://www.doubao.com/chat">豆包 </a>
+            </div>
+            <div class="flexboxson">
+                <a href="https://www.epicgames.com/site/zh-CN/home/">
+                    <img class="img" src="https://upload.wikimedia.org/wikipedia/commons/3/31/Epic_Games_logo.svg">
+                </a>
+                <a href="https://www.epicgames.com/site/zh-CN/home/">EpicGames</a>
+            </div>
+            <div class="flexboxson">
+                <a href="https://www.zhihu.com/">
+                    <img class="img" src="https://static.zhihu.com/static/favicon.ico">
+                </a>
+                <a href="https://www.zhihu.com/">知乎</a>
+            </div>
+            <div class="flexboxson">
+                <a href="https://openai.com/">
+                    <img class="img" src="https://openai.com/favicon.ico">
+                </a>
+                <a href="https://openai.com/">OpenAI</a>
+            </div>
+
+            <div class="flexboxson">
+                <a href="https://yandex.com/">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="none" viewBox="0 0 26 26">
+                        <path fill="#F8604A" d="M26 13c0-7.18-5.82-13-13-13S0 5.82 0 13s5.82 13 13 13 13-5.82 13-13Z">
+                        </path>
+                        <path fill="#fff"
+                            d="M13.353 14.343c.76 1.664 1.013 2.243 1.013 4.241v2.65h-2.714v-4.467L6.534 5.634h2.83l3.989 8.71Zm3.346-8.709-3.32 7.542h2.759l3.328-7.542h-2.767Z">
+                        </path>
+                    </svg>
+                </a>
+                <a href="https://yandex.com/">
+                    <pre style="font-size: 18px;"> Yandex  </pre>
+                </a>
+            </div>
+            <div class="flexboxson">
+                <a
+                    href="https://mail.163.com/js6/main.jsp?sid=PLRwYXAAjuxfcKkXzXBDnMFaeqADpysA&df=mail163_letter#module=welcome.WelcomeModule%7C%7B%7D">
+                    <img style="height: 30px;width: 150px;" class="img" src="https://mimg.127.net/logo/163logo.gif">
+                </a>
+            </div>
+
+            <div class="flexboxson">
+                <a href="https://moodle.scnu.edu.cn/my/">
+                    <img style="height: 30px;width: 150px;" class="img"
+                        src="https://cdn.deepseek.com/logo.png?x-image-process=image%2Fresize%2Cw_1920">
+                </a>
+            </div>
+            <div class="flexboxson">
+                <a href="https://moodle.scnu.edu.cn/my/">
+                    <img style="height: 30px;width: 150px;" class="img"
+                        src="https://www.runoob.com/wp-content/themes/runoob/assets/img/runoob-logo.png">
+                </a>
+            </div>
+
+            <!-- <div class="flexboxson">
+                <a href="https://www.pigai.org/index.php?c=write&f2=login">
+                    <img style="width: 150px;height: 30px;" class="img"
+                        src="https://www.pigai.org/res/images/2012/logo.png">
+                </a>
+            </div> -->
+
+        </div>
+        <div class="flexboxright">
+            <img src="https://static.wikitide.net/celestewiki/6/65/Theo_portrait.png?20240414183758" class="avatar">
+            <img class="icon" style="width: 100px; height: 60px; margin-left: auto"
+                src="//static.wikitide.net/celestewiki/a/ac/Strawberry_flap.gif" decoding="async">
+            <div class="intro">
+                <div>
+                    <strong style="font-size: 40px;">你好！</strong>欢迎来到我的个人页面。
+                </div>
+                <div>简单来说，这是我用来分享和记录的地方。我会在这里写一些技术相关的笔记和教程:</div>
+                <div>比如编程中遇到的问题和解决方案</div>
+                <div>或者是一些好用的工具推荐，常用学习平台、工具网站的导航搜索。</div>
+                <div>除了技术，我也可能会聊聊自己的学习心得、生活感悟，甚至是一些看过的电影和书。</div>
+                <div>希望我分享的内容能对你有点用，或者至少能博你一笑。通过交流我们的创意和想法，</div>
+                <div>让我们一起交流学习！</div>
+
+            </div>
+
+            <img src="//static.wikitide.net/celestewiki/9/99/Dream_grab.gif" decoding="async" style="opacity: 0.95;">
+            <!-- 右侧内容区域 -->
+        </div>
+    </div>
+</body>
+
+</html>
